@@ -1,6 +1,14 @@
-def main():
-    print("Hello from backend!")
+from fastapi import FastAPI
+
+from app.routes.auth import router as auth_router
+
+app = FastAPI()
+
+app.include_router(auth_router)
 
 
-if __name__ == "__main__":
-    main()
+@app.get("/")
+def root():
+    return {
+        "message": "ExpenseFlow API"
+    }
