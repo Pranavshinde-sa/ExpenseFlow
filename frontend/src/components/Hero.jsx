@@ -38,15 +38,18 @@ function Hero() {
             <div className="flex flex-wrap items-center gap-4">
 
                 <Link
-                to="/login"
+                to="/Signup"
                 className="px-6 py-3 rounded-xl bg-gradient-to-br from-emerald-400 via-emerald-500 to-teal-600 text-white font-semibold shadow-lg shadow-emerald-500/30 hover:scale-105 active:scale-95 transition-transform duration-200"
                 >
                 Get Started Free
                 </Link>
 
-              <button className="px-6 py-3 rounded-xl border border-white/10 bg-white/5 text-white font-semibold hover:bg-white/10 transition-colors duration-200">
-                View Demo
-              </button>
+                <Link
+                    to="/login"
+                    className="px-6 py-3 rounded-xl border border-white/10 bg-white/5 text-white font-semibold hover:bg-white/10 transition-colors duration-200"
+                >
+                    Login
+                </Link>
 
             </div>
 
