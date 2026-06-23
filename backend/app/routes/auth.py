@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from app.schemas.user import UserCreate, UserLogin
 from app.models.user import User
 from app.core.dependencies import get_db
+from app.core.security import hash_password
 
 router = APIRouter(
     prefix="/auth",
@@ -17,7 +18,7 @@ def signup(user: UserCreate, db: Session = Depends(get_db)):
     new_user = User(
         name=user.name,
         email=user.email,
-        password=user.password
+        password=hash_password(user.password)
     )
 
     db.add(new_user)
