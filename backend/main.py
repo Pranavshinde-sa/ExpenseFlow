@@ -1,6 +1,14 @@
 from fastapi import FastAPI
 
+from app.core.database import Base, engine
+
+from app.models.user import User
+from app.models.category import Category
+from app.models.expense import Expense
+
 from app.routes.auth import router as auth_router
+
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
