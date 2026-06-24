@@ -1,11 +1,16 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from app.schemas.user import UserCreate, UserLogin
-from app.models.user import User
 from app.core.dependencies import get_db
-from app.core.security import hash_password
-from app.core.security import verify_password
+from app.core.security import (
+    hash_password,
+    verify_password,
+    create_access_token
+)
+
+from app.models.user import User
+from app.schemas.user import UserCreate, UserLogin
+from fastapi.security import OAuth2PasswordRequestForm
 
 router = APIRouter(
     prefix="/auth",
@@ -14,7 +19,10 @@ router = APIRouter(
 
 
 @router.post("/signup")
-def signup(user: UserCreate, db: Session = Depends(get_db)):
+def signup(
+    user: UserCreate,
+    db: Session = Depends(get_db)
+):
 
     new_user = User(
         name=user.name,
@@ -31,32 +39,51 @@ def signup(user: UserCreate, db: Session = Depends(get_db)):
         "id": new_user.id
     }
 
+
 @router.post("/login")
 def login(
-    user: UserLogin,
+    user_credentials: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db)
 ):
 
+
     db_user = (
         db.query(User)
-        .filter(User.email == user.email)
+        .filter(
+    User.email == user_credentials.username.strip()
+        )
         .first()
     )
 
-    if not db_user:
+
+    if db_user:
+        print("EMAIL IN DB:", db_user.email)
+        print("HASHED PASSWORD:", db_user.password)
+
+        password_match = verify_password(
+            user_credentials.password.strip(),
+            db_user.password
+        )
+
+
+        if not password_match:
+            return {
+                "message": "Invalid email or password"
+            }
+
+    else:
         return {
             "message": "Invalid email or password"
         }
 
-    if not verify_password(
-        user.password,
-        db_user.password
-    ):
-        return {
-            "message": "Invalid email or password"
+    access_token = create_access_token(
+        {
+            "sub": db_user.email
         }
+    )
+
 
     return {
-        "message": "Login successful",
-        "user_id": db_user.id
+        "access_token": access_token,
+        "token_type": "bearer"
     }
