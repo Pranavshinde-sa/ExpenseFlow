@@ -18,3 +18,9 @@ class ExpenseResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+class ExpenseUpdate(BaseModel):
+    title: str
+    amount: float
+    transaction_type: str
+    category_id: int

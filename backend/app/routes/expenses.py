@@ -5,7 +5,12 @@ from app.core.dependencies import get_db
 from app.core.oauth2 import get_current_user
 
 from app.models.expense import Expense
-from app.schemas.expense import ExpenseCreate
+
+from app.schemas.expense import (
+    ExpenseCreate,
+    ExpenseUpdate
+)
+from fastapi import HTTPException
 
 router = APIRouter(
     prefix="/expenses",
@@ -49,3 +54,64 @@ def get_expenses(
     )
 
     return expenses
+@router.delete("/{expense_id}")
+def delete_expense(
+    expense_id: int,
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user)
+):
+
+    expense = (
+        db.query(Expense)
+        .filter(
+            Expense.id == expense_id,
+            Expense.user_id == current_user.id
+        )
+        .first()
+    )
+
+    if not expense:
+        raise HTTPException(
+            status_code=404,
+            detail="Expense not found"
+        )
+
+    db.delete(expense)
+    db.commit()
+
+    return {
+        "message": "Expense deleted successfully"
+    }
+
+@router.put("/{expense_id}")
+def update_expense(
+    expense_id: int,
+    expense_data: ExpenseUpdate,
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user)
+):
+
+    expense = (
+        db.query(Expense)
+        .filter(
+            Expense.id == expense_id,
+            Expense.user_id == current_user.id
+        )
+        .first()
+    )
+
+    if not expense:
+        raise HTTPException(
+            status_code=404,
+            detail="Expense not found"
+        )
+
+    expense.title = expense_data.title
+    expense.amount = expense_data.amount
+    expense.transaction_type = expense_data.transaction_type
+    expense.category_id = expense_data.category_id
+
+    db.commit()
+    db.refresh(expense)
+
+    return expense
