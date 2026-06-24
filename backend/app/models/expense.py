@@ -1,4 +1,13 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    Float,
+    ForeignKey,
+    DateTime
+)
+
+from datetime import datetime
 
 from app.core.database import Base
 
@@ -12,6 +21,11 @@ class Expense(Base):
 
     amount = Column(Float, nullable=False)
 
+    transaction_type = Column(
+        String(20),
+        nullable=False
+    )
+
     category_id = Column(
         Integer,
         ForeignKey("categories.id"),
@@ -22,4 +36,9 @@ class Expense(Base):
         Integer,
         ForeignKey("users.id"),
         nullable=False
+    )
+
+    created_at = Column(
+        DateTime,
+        default=datetime.utcnow
     )

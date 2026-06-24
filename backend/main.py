@@ -9,6 +9,7 @@ from app.models.expense import Expense
 from app.routes.auth import router as auth_router
 from app.routes.users import router as user_router
 from app.routes.categories import router as category_router
+from app.routes.expenses import router as expense_router
 
 
 
@@ -19,6 +20,7 @@ app = FastAPI()
 app.include_router(auth_router)
 app.include_router(user_router)
 app.include_router(category_router)
+app.include_router(expense_router)
 
 @app.get("/")
 def root():
