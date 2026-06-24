@@ -1,10 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Sidebar() {
-  return (
-    <aside className="w-64 h-screen bg-slate-950 border-r border-white/10 p-6">
+  const navigate = useNavigate();
 
-      <div className="flex items-center gap-3 mb-10">
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
+  return (
+    <aside className="flex h-screen w-64 flex-col border-r border-white/10 bg-slate-950 p-6">
+
+      <div className="mb-10 flex items-center gap-3">
 
         <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-400 via-emerald-500 to-teal-600">
           <span className="font-bold text-white">
@@ -28,30 +35,33 @@ function Sidebar() {
 
         <Link
           to="/dashboard"
-          className="block rounded-xl px-4 py-3 text-slate-300 hover:bg-white/5 hover:text-white transition"
+          className="block rounded-xl px-4 py-3 text-slate-300 transition hover:bg-white/5 hover:text-white"
         >
           📊 Dashboard
         </Link>
 
         <Link
           to="/expenses"
-          className="block rounded-xl px-4 py-3 text-slate-300 hover:bg-white/5 hover:text-white transition"
+          className="block rounded-xl px-4 py-3 text-slate-300 transition hover:bg-white/5 hover:text-white"
         >
           💸 Expenses
         </Link>
 
         <Link
           to="/categories"
-          className="block rounded-xl px-4 py-3 text-slate-300 hover:bg-white/5 hover:text-white transition"
+          className="block rounded-xl px-4 py-3 text-slate-300 transition hover:bg-white/5 hover:text-white"
         >
           🏷️ Categories
         </Link>
 
       </nav>
 
-      <div className="mt-auto pt-10">
+      <div className="mt-auto">
 
-        <button className="w-full rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-red-400 hover:bg-red-500/20 transition">
+        <button
+          onClick={handleLogout}
+          className="w-full rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-red-400 transition hover:bg-red-500/20"
+        >
           Logout
         </button>
 

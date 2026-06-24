@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-
+from fastapi import HTTPException
 from app.core.dependencies import get_db
 from app.core.security import (
     hash_password,
@@ -46,42 +46,37 @@ def login(
     db: Session = Depends(get_db)
 ):
 
-
     db_user = (
         db.query(User)
         .filter(
-    User.email == user_credentials.username.strip()
+            User.email ==
+            user_credentials.username.strip()
         )
         .first()
     )
 
-
-    if db_user:
-        print("EMAIL IN DB:", db_user.email)
-        print("HASHED PASSWORD:", db_user.password)
-
-        password_match = verify_password(
-            user_credentials.password.strip(),
-            db_user.password
+    if not db_user:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid email or password"
         )
 
+    password_match = verify_password(
+        user_credentials.password.strip(),
+        db_user.password
+    )
 
-        if not password_match:
-            return {
-                "message": "Invalid email or password"
-            }
-
-    else:
-        return {
-            "message": "Invalid email or password"
-        }
+    if not password_match:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid email or password"
+        )
 
     access_token = create_access_token(
         {
             "sub": db_user.email
         }
     )
-
 
     return {
         "access_token": access_token,
