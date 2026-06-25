@@ -2,10 +2,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import Signup from "./pages/signup";
-import Dashboard from "./pages/dashboard";
-import Expenses from "./pages/expense";
-import Categories from "./pages/categories";
+import Signup from "./pages/Signup";
+import Dashboard from "./pages/Dashboard";
+import Expenses from "./pages/Expense";
+import Categories from "./pages/Categories";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
