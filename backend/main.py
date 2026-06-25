@@ -13,11 +13,6 @@ from app.routes.expenses import router as expense_router
 from app.routes.dashboard import router as dashboard_router
 
 
-
-
-
-Base.metadata.create_all(bind=engine)
-
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
