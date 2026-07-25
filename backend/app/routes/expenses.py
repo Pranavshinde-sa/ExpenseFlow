@@ -18,7 +18,7 @@ router = APIRouter(
 )
 
 
-@router.post("/")
+@router.post("")
 def create_expense(
     expense: ExpenseCreate,
     db: Session = Depends(get_db),
@@ -39,7 +39,7 @@ def create_expense(
 
     return new_expense
 
-@router.get("/")
+@router.get("")
 def get_expenses(
     db: Session = Depends(get_db),
     current_user=Depends(get_current_user)

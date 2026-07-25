@@ -97,7 +97,7 @@ function Login() {
             </h1>
 
             <p className="mt-2 text-sm text-slate-400">
-              Sign in to your ExpenseFlow account
+              Login in to your ExpenseFlow account
             </p>
 
           </div>
@@ -149,7 +149,7 @@ function Login() {
               type="submit"
               className="w-full rounded-xl bg-gradient-to-r from-emerald-400 via-emerald-500 to-teal-600 py-3 font-semibold text-white shadow-lg shadow-emerald-500/30 transition hover:scale-[1.02]"
             >
-              Sign In
+              Log In
             </button>
 
           </form>
