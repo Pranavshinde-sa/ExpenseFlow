@@ -14,7 +14,7 @@ router = APIRouter(
 )
 
 
-@router.post("/")
+@router.post("")
 def create_category(
     category: CategoryCreate,
     db: Session = Depends(get_db),
@@ -32,7 +32,7 @@ def create_category(
     return new_category
 
 
-@router.get("/")
+@router.get("")
 def get_categories(
     db: Session = Depends(get_db),
     current_user=Depends(get_current_user)
