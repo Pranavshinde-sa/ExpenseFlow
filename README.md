@@ -53,14 +53,40 @@ All three services run together under Docker Compose and communicate over the Co
 
 ```
 ExpenseFlow/
-  backend/             FastAPI application and Dockerfile
-  frontend/            React application and Dockerfile
-  init/postgres/       Database initialization scripts
-  docker-compose.yml   Runs frontend, backend and database together
-  .env.example         Example configuration (copy to .env)
-  README.md
-```
+│
+├── backend/                 FastAPI application
+│   │
+│   ├── app/                 Routes, models, schemas, authentication
+│   │
+│   ├── main.py              Application entry point
+│   │
+│   ├── pyproject.toml       Python dependencies (managed with uv)
+│   │
+│   ├── uv.lock              Locked dependency versions
+│   │
+│   └── Dockerfile           Builds the backend image
+│
+├── frontend/                React application
+│   │
+│   ├── src/                 Pages, components, API calls
+│   │
+│   ├── public/              Static assets
+│   │
+│   └── Dockerfile           Builds the frontend image
+│
+├── init/
+│   │
+│   └── postgres/            SQL scripts that set up the database on first start
+│
+├── docker-compose.yml       Runs frontend, backend and database together
+│
+├── .env.example             Example configuration (copy to .env)
+│
+├── .gitignore
+│
+└── README.md
 
+```
 ## Run with Docker Compose
 
 Prerequisites: Docker and Docker Compose.
